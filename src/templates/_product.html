@@ -1,0 +1,23 @@
+<li class="product products__item">
+    <a class="product__inner" href="{{ url_for('main.product', product_id=product.id) }}" title="Посмотреть статистику">
+        <div class="product__header">
+            <div class="product__title">
+                {{ product.name }} <span class="product__weight">300&nbsp;г</span>
+            </div>
+
+            <div class="product__price">
+                {{ '{:,.2f}'.format(product.price|float) }}&nbsp;₽
+            </div>
+        </div>
+
+        <div class="product__body">
+            <div class="product__description">
+                {{ product.description|safe }}
+            </div>
+        </div>
+
+        <div class="product__thumbnail">
+            <img class="product__image" src="{{ product.image_url }}" alt="">
+        </div>
+    </a>
+</li>

@@ -1,0 +1,178 @@
+.page__body {
+    margin: 0;
+
+    overflow-x: hidden;
+    background-color: #f2f2f2;
+    color: #000;
+
+    font-family: YSText, helvetica, arial, sans-serif;
+}
+
+.page__container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+
+.products__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+    padding: 0;
+
+    list-style: none;
+}
+
+.products__item {
+    box-sizing: border-box;
+    width: calc(100%*1/4 - 20px);
+    margin: 10px;
+}
+
+
+
+
+
+
+.product {
+    display: flex;
+    flex-direction: column;
+}
+
+.product__inner {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+
+    border-radius: 4px;
+    background-color: #fff;
+
+    text-decoration: none;
+}
+
+.product__inner:hover {
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.product__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.product__body {
+    flex-grow: 1;
+}
+
+.product__title {
+    max-width: 200px;
+
+    color: #000;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.39;
+    word-break: break-word;
+}
+
+.product__weight {
+    color: #999;
+}
+
+.product__price {
+    color: #000;
+
+    font-weight: 400;
+}
+
+.product__description {
+    margin-top: 8px;
+    
+    color: #b0b0b0;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.33;
+}
+
+.product__thumbnail {
+    margin-top: 24px;
+    height: 170px;
+
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    overflow: hidden;
+}
+
+.product__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+
+
+
+
+.title {
+    font-size: 30px;
+}
+
+
+
+.filter {
+    padding: 35px 0;
+}
+
+.filter-form__title {
+    margin-bottom: 15px;
+}
+
+.filter-form__inputs {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
+.filter-form__input {
+    width: calc(100%*1/3 - 20px);
+    margin: 10px;
+}
+
+.filter-form__input:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.input__field {
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+.chart-container {
+    width: 600px;
+    height: 600px;
+}

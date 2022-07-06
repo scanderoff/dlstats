@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    YeStats
+{% endblock %}
+
+
+{% block content %}
+    <section class="section-products">
+        <div class="page__container">
+            <div class="filter">
+                <form class="filter-form" action="" method="GET">
+                    <div class="title filter-form__title">
+                        Фильтр
+                    </div>
+
+                    <div class="filter-form__inputs">
+                        <div class="input filter-form__input">
+                            <div class="input__label">
+                                Выберите город ({{ cities|length }}):
+                            </div>
+                            <select class="input__field" name="cities" multiple>
+                                {% for city in cities %}
+                                    <option value="{{ city.id }}" {% if city.id|string in request.args.getlist('cities') %}selected{% endif %}>
+                                        {{ city.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+    
+                        <div class="input filter-form__input">
+                            <div class="input__label">
+                                Выберите ресторан ({{ restaurants|length }}):
+                            </div>
+    
+                            <select class="input__field" name="restaurants" multiple>
+                                {% for restaurant in restaurants %}
+                                    <option value="{{ restaurant.id }}" {% if restaurant.id|string in request.args.getlist('restaurants') %}selected{% endif %}>
+                                        {{ restaurant.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+    
+                        <div class="input filter-form__input">
+                            <div class="input__label">
+                                Название:
+                            </div>
+    
+                            <input class="input__field choices__inner" type="search" name="s" value="{{ request.args.get('s', '') }}">
+                        </div>
+                    </div>
+
+                    <button type="submit">
+                        Применить
+                    </button>
+
+                    <button type="reset">
+                        Сбросить
+                    </button>
+                </form>
+            </div>
+
+            <div class="products">
+                <div class="title filter-form__title">
+                    Товары
+                </div>
+
+                <ul class="products__list">
+                    {% include '_product_loop.html' %}
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}

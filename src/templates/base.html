@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html class="page" lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}YeStats{% endblock %}</title>
+
+        <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/base.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+
+        <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{{ url_for('static', filename='scripts/main.js') }}" defer></script>
+    </head>
+    <body class="page__body">
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

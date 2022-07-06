@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ product.name }} – {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Дата</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for price in product.price_history %}
+                <tr>
+                    <td>
+                        {{ loop.index }}
+                    </td>
+                    <td>
+                        {{ price.date.strftime('%d.%m.%Y') }}
+                    </td>
+                    <td>
+                        {{ price.value }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <div class="chart-container">
+        <canvas
+            id="chart"
+            width="300"
+            height="300"
+            data-labels='{{ chart["labels"] }}'
+            data-values='{{ chart["values"] }}'
+        ></canvas>
+    </div>
+
+
+    <script>
+        const $chart = document.getElementById("chart");
+
+        const labels = JSON.parse($chart.dataset.labels);
+        const values = JSON.parse($chart.dataset.values);
+
+        const chart = new Chart($chart, {
+            type: "line",
+            options: {},
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Изменение цены",
+                        backgroundColor: "rgb(255, 99, 132)",
+                        borderColor: "rgb(255, 99, 132)",
+                        data: values,
+                    },
+                ],
+            },
+        });
+    </script>
+{% endblock %}
