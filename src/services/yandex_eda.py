@@ -3,7 +3,7 @@ import asyncio
 import aiohttp
 import logging
 
-from typing import Any, NamedTuple
+from typing import Any, NamedTuple, Iterable
 from bs4 import BeautifulSoup
 
 
@@ -34,6 +34,7 @@ class Product(NamedTuple):
     # weight: int
     price: float
     image: str
+    weight: str
     
 
 class Parser:
@@ -45,13 +46,13 @@ class Parser:
         # закрываем при выходе из контекстного менеджера
         self.session = aiohttp.ClientSession()
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "Parser":
         return self
 
     async def __aexit__(self, *excinfo) -> None:
         await self.session.close()
 
-    async def get_cities(self, city_names: list[str] = []) -> list[City]:
+    async def get_cities(self, city_names: Iterable[str] = []) -> list[City]:
         server_data = await self.__get_server_data(Parser.BASE_URL)
         city_items = server_data["regionsData"]
 
@@ -130,12 +131,7 @@ class Parser:
                 items = category["items"]
 
                 for item in items:
-                    picture = item.get("picture")
-                    image = ""
-
-                    if picture is not None:
-                        image = item["picture"]["uri"]
-                        image = image.replace("{w}", "450").replace("{h}", "300")
+                    image = "" if item.get("picture") is None else item["picture"]["uri"]
 
                     product = Product(
                         item["id"],
@@ -143,12 +139,13 @@ class Parser:
                         item.get("description", ""),
                         float(item["decimalPrice"]),
                         image,
-                        item.get("price", ""),
+                        item.get("weight", ""),
                     )
 
                     products.append(product)
 
             await asyncio.sleep(rate)
+
             log.info(f"PRODUCTS REQUEST: {len(products)}")
 
             return products

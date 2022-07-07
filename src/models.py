@@ -12,8 +12,8 @@ class City(db.Model):
     __tablename__ = "city"
 
     id = db.Column(db.Integer, primary_key=True, index=True, unique=True)
-    name = db.Column(db.String, unique=True, nullable=False)
-    restaurants = db.relationship("Restaurant", back_populates="city")
+    name = db.Column(db.String(128), unique=True, nullable=False)
+    restaurants = db.relationship("Restaurant", backref="city")
 
 
 class Restaurant(db.Model):
@@ -24,9 +24,8 @@ class Restaurant(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, index=True, unique=True)
     city_id = db.Column(db.Integer, db.ForeignKey("city.id"), nullable=False)
-    city = db.relationship("City", back_populates="restaurants")
-    name = db.Column(db.String, nullable=False)
-    products = db.relationship("Product", back_populates="restaurant")
+    name = db.Column(db.String(128), nullable=False)
+    products = db.relationship("Product", backref="restaurant")
 
 
 class Product(db.Model):
@@ -34,22 +33,25 @@ class Product(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, index=True, unique=True)
     restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.id"), nullable=False)
-    restaurant = db.relationship("Restaurant", back_populates="products")
     internal_id = db.Column(db.Integer, unique=True)
-    name = db.Column(db.String)
-    description = db.Column(db.String)
+    name = db.Column(db.String(128))
+    description = db.Column(db.String(512))
     price = db.Column(db.Float)
-    image = db.Column(db.String)
-    weight = db.Column(db.String)
-    price_history = db.relationship("ProductPrice", back_populates="product")
+    image = db.Column(db.String(256))
+    weight = db.Column(db.String(64))
+    price_history = db.relationship(
+        "ProductPrice",
+        backref=db.backref("product", lazy="joined"),
+        order_by="ProductPrice.date",
+        lazy="joined",
+    )
     # updated_at = db.Column()
-
-    @property
-    def image_url(self) -> str:
+    
+    def get_image_url(self, width: int, height: int) -> str:
         if not self.image:
             return "https://yastatic.net/s3/eda-front/www/assets/desktop.light.a623a0604d5b8e0630de.svg"
 
-        return "https://eda.yandex.ru" + self.image
+        return "https://eda.yandex.ru" + self.image.replace("{w}", str(width)).replace("{h}", str(height))
 
 
 class ProductPrice(db.Model):
@@ -57,8 +59,7 @@ class ProductPrice(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, index=True, unique=True)
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
-    product = db.relationship("Product", back_populates="price_history")
-    value = db.Column(db.Float)
+    value = db.Column(db.Float, nullable=False)
     date = db.Column(db.Date, default=datetime.date.today, nullable=False)
 
     def __repr__(self) -> str:

@@ -10,14 +10,20 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
 
-        <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="{{ url_for('static', filename='scripts/main.js') }}" defer></script>
+        {% block scripts %}
+            <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ url_for('static', filename='scripts/main.js') }}" defer></script>
+        {% endblock %}
     </head>
     <body class="page__body">
         <main>
-            {% block content %}
-            {% endblock %}
+            <section class="content">
+                <div class="content__container page__container">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </section>
         </main>
     </body>
 </html>

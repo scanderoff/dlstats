@@ -1,4 +1,4 @@
-# randomly runs COMMAND once a day
+# runs COMMAND once a day at random time
 
 COMMAND=". /home/iscander/Desktop/yestats/venv/bin/activate && python /home/iscander/Desktop/yestats/populate_db.py"
 

@@ -1,8 +1,9 @@
 import json
 
 from flask import Blueprint, render_template, request
+from flask_sqlalchemy import BaseQuery
 
-from .models import db, City, Restaurant, Product, ProductPrice
+from .models import db, City, Restaurant, Product
 from .services.utils import is_ajax
 
 
@@ -13,7 +14,8 @@ main = Blueprint("main", __name__)
 def products() -> str:
     cities: list[City] = db.session.query(City).all()
     restaurants: list[Restaurant] = db.session.query(Restaurant).all()
-    products: list[Product] = db.session.query(Product)
+
+    products: BaseQuery = db.session.query(Product)
 
     city_ids: list[str] = request.args.getlist("cities")
     restaurant_ids: list[str] = request.args.getlist("restaurants")
@@ -27,25 +29,31 @@ def products() -> str:
 
     if s:
         products = products.filter(Product.name.contains(s))
-    
+
+    page = int(request.args.get("page", "1"))
+
+    products = products.paginate(page, 52, False).items
+
     if is_ajax(request):
         return render_template("_product_loop.html",
             products=products,
         )
 
-    return render_template("homepage.html",
+    return render_template("products.html",
         cities=cities,
         restaurants=restaurants,
-        products=products[:52],
+        products=products,
     )
+
 
 @main.route("/product/<int:product_id>/", methods=["GET"])
 def product(product_id: int) -> str:
     product: Product = db.session.query(Product).get(product_id)
 
     # pp - product price
-    dates: list[str] = [pp.date.strftime("%d.%m.%Y") for pp in product.price_history]
-    values: list[float] = [pp.value for pp in product.price_history]
+    pp_history = product.price_history
+    dates: list[str] = [pp.date.strftime("%d.%m.%Y") for pp in pp_history]
+    values: list[float] = [pp.value for pp in pp_history]
 
     chart: dict[str, str] = {
         "labels": json.dumps(dates),

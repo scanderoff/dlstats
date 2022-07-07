@@ -5,35 +5,33 @@
     {{ product.name }} – {{ super() }}
 {% endblock %}
 
+
 {% block content %}
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Дата</th>
-                <th>Цена</th>
-            </tr>
-        </thead>
-        
-        <tbody>
-            {% for price in product.price_history %}
-                <tr>
-                    <td>
-                        {{ loop.index }}
-                    </td>
-                    <td>
-                        {{ price.date.strftime('%d.%m.%Y') }}
-                    </td>
-                    <td>
-                        {{ price.value }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="product product--detail content__product">
+        <div class="product__image">
+            <img src="{{ product.get_image_url(450, 300) }}" alt="" width="450" height="300">
+        </div>
 
+        <div class="product__info">
+            <div class="product__title">
+                {{ product.name }}
+            </div>
 
-    <div class="chart-container">
+            <div class="product__description">
+                {{ product.description|safe }}
+            </div>
+
+            <div class="product__weight">
+                Вес: {{ product.weight }}
+            </div>
+
+            <div class="product__price">
+                Текущая цена: {{ product.price|pretty_price }}&nbsp;₽
+            </div>
+        </div>
+    </div>
+
+    <div class="chart">
         <canvas
             id="chart"
             width="300"
@@ -44,20 +42,25 @@
     </div>
 
 
+
+
+
     <script>
         const $chart = document.getElementById("chart");
-
+    
         const labels = JSON.parse($chart.dataset.labels);
         const values = JSON.parse($chart.dataset.values);
-
+    
         const chart = new Chart($chart, {
             type: "line",
-            options: {},
+            options: {
+                maintainAspectRatio: false,
+            },
             data: {
                 labels: labels,
                 datasets: [
                     {
-                        label: "Изменение цены",
+                        label: "История цен",
                         backgroundColor: "rgb(255, 99, 132)",
                         borderColor: "rgb(255, 99, 132)",
                         data: values,

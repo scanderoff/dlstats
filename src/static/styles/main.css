@@ -1,4 +1,10 @@
+.page {
+    height: auto;
+}
+
 .page__body {
+    min-height: 100vh;
+    height: auto;
     margin: 0;
 
     overflow-x: hidden;
@@ -16,6 +22,36 @@
 }
 
 
+
+
+
+
+
+
+
+
+.content__container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.content__product {
+    margin-bottom: 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .products__list {
     display: flex;
     flex-wrap: wrap;
@@ -31,6 +67,13 @@
     margin: 10px;
 }
 
+.products__loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
 
 
 
@@ -39,6 +82,10 @@
 .product {
     display: flex;
     flex-direction: column;
+}
+
+.product--detail {
+    flex-direction: row;
 }
 
 .product__inner {
@@ -67,7 +114,7 @@
     flex-grow: 1;
 }
 
-.product__title {
+.product--item .product__title {
     max-width: 200px;
 
     color: #000;
@@ -78,8 +125,17 @@
     word-break: break-word;
 }
 
-.product__weight {
+.product--detail .product__title {
+    font-size: 30px;
+}
+
+.product--item .product__weight {
     color: #999;
+}
+
+.product--detail .product__weight {
+    margin: 10px 0;
+    color: #000;
 }
 
 .product__price {
@@ -107,20 +163,22 @@
     overflow: hidden;
 }
 
-.product__image {
+.product__preview {
     width: 100%;
     height: 100%;
     object-fit: cover;
     vertical-align: middle;
 }
 
-
-
-
-
-.title {
-    font-size: 30px;
+.product__image {
+    margin-right: 40px;
 }
+
+
+
+
+
+
 
 
 
@@ -147,15 +205,36 @@
     margin-bottom: 15px;
 }
 
+.filter-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.filter-form__btn:not(:last-child) {
+    margin-right: 30px;
+}
 
 
 
 
 
 
+.title {
+    font-size: 30px;
+}
 
+.btn {
+    height: 56px;
+    padding: 0 24px;
+    border: none;
 
+    border-radius: 16px;
+    background-color: #FCE000;
+    cursor: pointer;
 
+    font-weight: 500;
+}
 
 
 .input__field {
@@ -170,9 +249,7 @@
 
 
 
-
-
-.chart-container {
-    width: 600px;
-    height: 600px;
+.chart {
+    width: 100%;
+    height: 300px;
 }

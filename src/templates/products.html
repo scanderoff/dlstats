@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    YeStats
+{% endblock %}
+
+
+{% block content %}
+    <div class="products">
+        <div class="filter">
+            <form class="filter-form" action="" method="GET">
+   
+                <div class="filter-form__inputs">
+                    <label class="input filter-form__input">
+                        <div class="input__label">
+                            Выберите город ({{ cities|length }}):
+                        </div>
+                        <select class="input__field" name="cities" multiple>
+                            {% for city in cities %}
+                                <option value="{{ city.id }}" {% if city.id|string in request.args.getlist('cities') %}selected{% endif %}>
+                                    {{ city.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </label>
+    
+                    <label class="input filter-form__input">
+                        <div class="input__label">
+                            Выберите ресторан ({{ restaurants|length }}):
+                        </div>
+    
+                        <select class="input__field" name="restaurants" multiple>
+                            {% for restaurant in restaurants %}
+                                <option value="{{ restaurant.id }}" {% if restaurant.id|string in request.args.getlist('restaurants') %}selected{% endif %}>
+                                    {{ restaurant.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </label>
+    
+                    <label class="input filter-form__input">
+                        <div class="input__label">
+                            Название:
+                        </div>
+    
+                        <input class="input__field choices__inner" type="search" name="s" value="{{ request.args.get('s', '') }}">
+                    </label>
+                </div>
+    
+                <div class="filter-form__actions">
+                    <button class="btn filter-form__btn" type="submit">
+                        Применить
+                    </button>
+    
+                    <button class="btn filter-form__btn" type="reset">
+                        Сбросить
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <ul class="products__list">
+            {% include '_product_loop.html' %}
+        </ul>
+
+        <div class="products__loader">
+            <img src="{{ url_for('static', filename='images/spinner.gif') }}" alt="">
+        </div>
+    </div>
+{% endblock %}

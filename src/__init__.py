@@ -1,6 +1,7 @@
 from flask import Flask
 
 from src.models import *
+from src.filters import *
 from .views import main
 
 
