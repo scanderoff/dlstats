@@ -15,6 +15,7 @@ log.setLevel(logging.INFO)
 
 
 # Храним всю необходимую инфу в таких контейнерах для удобства
+# need pydantic?
 
 class City(NamedTuple):
     id: int

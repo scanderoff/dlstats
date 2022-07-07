@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'content.html' %}
 
 
 {% block title %}
@@ -13,17 +13,29 @@
         </div>
 
         <div class="product__info">
-            <div class="product__title">
+            <div class="product__title product__line">
                 {{ product.name }}
             </div>
 
-            <div class="product__description">
-                {{ product.description|safe }}
+            {% if product.description %}
+                <div class="product__description product__line">
+                    {{ product.description|safe }}
+                </div>
+            {% endif %}
+
+            <div class="product__extra product__line">
+                Город: {{ product.restaurant.city.name }}
             </div>
 
-            <div class="product__weight">
-                Вес: {{ product.weight }}
+            <div class="product__extra product__line">
+                Ресторан: {{ product.restaurant.name }}
             </div>
+
+            {% if product.weight %}
+                <div class="product__weight product__line">
+                    Вес: {{ product.weight }}
+                </div>
+            {% endif %}
 
             <div class="product__price">
                 Текущая цена: {{ product.price|pretty_price }}&nbsp;₽

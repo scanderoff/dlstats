@@ -20,7 +20,7 @@ const restaurantChoices = new Choices('[name="restaurants"]', {
         rootMargin: "0px",
         threshold: 0.0,
     });
-    
+
     observer.observe($spinner);
 
     function onIntersect(entries, observer) {
@@ -49,7 +49,6 @@ const restaurantChoices = new Choices('[name="restaurants"]', {
     }
 
     function onResponse(html) {
-        console.log(html);
         if (!html) {
             observer.unobserve($spinner);
             $spinner.remove();
@@ -59,4 +58,20 @@ const restaurantChoices = new Choices('[name="restaurants"]', {
 
         $productList.insertAdjacentHTML("beforeend", html);
     }
+}());
+
+
+
+
+
+
+
+
+
+(function () {
+    const $resetBtn = document.querySelector('.filter-form__btn[type="reset"]');
+
+    $resetBtn.addEventListener("click", (event) => {
+        location.search = "";
+    });
 }());

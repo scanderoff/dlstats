@@ -57,10 +57,10 @@ async def main() -> Coroutine[None, None, None]:
                     if dbprod.price != product.price:
                         db.session.add(ProductPrice(product=dbprod, value=product.price))
 
-                    dbprod.name = product.name
-                    dbprod.description = product.description
-                    dbprod.image = product.image
-                    dbprod.price = product.price
+                        dbprod.name = product.name
+                        dbprod.description = product.description
+                        dbprod.image = product.image
+                        dbprod.price = product.price
 
                     # data[city.name][restaurant.name].append(product.name)
 

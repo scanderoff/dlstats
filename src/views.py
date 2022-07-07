@@ -30,6 +30,8 @@ def products() -> str:
     if s:
         products = products.filter(Product.name.contains(s))
 
+    total_products: int = products.count()
+
     page = int(request.args.get("page", "1"))
 
     products = products.paginate(page, 52, False).items
@@ -39,11 +41,12 @@ def products() -> str:
             products=products,
         )
 
-    return render_template("products.html",
-        cities=cities,
-        restaurants=restaurants,
-        products=products,
-    )
+    return render_template("products.html", **{
+        "cities": cities,
+        "restaurants": restaurants,
+        "products": products,
+        "total_products": total_products,
+    })
 
 
 @main.route("/product/<int:product_id>/", methods=["GET"])
@@ -60,7 +63,7 @@ def product(product_id: int) -> str:
         "values": json.dumps(values),
     }
 
-    return render_template("product.html",
-        product=product,
-        chart=chart,
-    )
+    return render_template("product.html", **{
+        "product": product,
+        "chart": chart,
+    })

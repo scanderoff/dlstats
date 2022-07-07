@@ -45,8 +45,26 @@ class Product(db.Model):
         order_by="ProductPrice.date",
         lazy="joined",
     )
-    # updated_at = db.Column()
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.datetime.utcnow,
+        nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=datetime.datetime.utcnow,
+        onupdate=datetime.datetime.utcnow, nullable=False
+    )
     
+    @property
+    def price_dropped(self) -> bool | None:
+        history = self.price_history
+
+        if len(history) < 2:
+            return None
+
+        return history[-1].value < history[-2].value
+
     def get_image_url(self, width: int, height: int) -> str:
         if not self.image:
             return "https://yastatic.net/s3/eda-front/www/assets/desktop.light.a623a0604d5b8e0630de.svg"
