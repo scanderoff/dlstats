@@ -22,14 +22,10 @@ async def main() -> Coroutine[None, None, None]:
         tasks: list[Coroutine] = [p.get_restaurants(city) for city in cities]
         cities_restaurants: list[list[ye.Restaurant]] = await asyncio.gather(*tasks)
 
-        # data = {}
-
         for city, restaurants in zip(cities, cities_restaurants):
             dbcity, _ = get_or_create(db, City, name=city.name)
             db.session.commit()
-
-            # data[city.name] = {}
-            
+  
             # tasks = [p.get_products(restaurants[0], limit, rate), p.get_products(restaurants[1], limit, rate)]
             tasks = [p.get_products(restaurant, limit, rate) for restaurant in restaurants]
             restaurants_products: list[list[ye.Product]] = await asyncio.gather(*tasks)
@@ -43,8 +39,6 @@ async def main() -> Coroutine[None, None, None]:
                 )
 
                 db.session.commit()
-
-                # data[city.name][restaurant.name] = []
 
                 for product in products:
                     dbprod, _ = get_or_create(
@@ -62,12 +56,7 @@ async def main() -> Coroutine[None, None, None]:
                         dbprod.image = product.image
                         dbprod.price = product.price
 
-                    # data[city.name][restaurant.name].append(product.name)
-
                 db.session.commit()
-
-        # with open("test.json", "w") as ouf:
-        #     json.dump(data, ouf, indent=4, ensure_ascii=False)
 
     db.session.close()
 

@@ -15,8 +15,8 @@ def products() -> str:
     cities: list[City] = db.session.query(City).all()
     restaurants: list[Restaurant] = db.session.query(Restaurant).all()
 
-    products: BaseQuery = db.session.query(Product)
-
+    products: BaseQuery = db.session.query(Product).order_by(Product.updated_at.desc())
+    print(products)
     city_ids: list[str] = request.args.getlist("cities")
     restaurant_ids: list[str] = request.args.getlist("restaurants")
     s: str = request.args.get("s", "")
@@ -67,3 +67,13 @@ def product(product_id: int) -> str:
         "product": product,
         "chart": chart,
     })
+
+
+@main.route("/test/", methods=["GET"])
+def test() -> str:
+    prod = db.session.query(Product).get(1000)
+
+    prod.price = 9999.0
+    db.session.commit()
+
+    return "fdsf"
