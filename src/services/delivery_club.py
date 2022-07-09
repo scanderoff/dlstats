@@ -154,5 +154,5 @@ class Parser:
             initial_state: str = scripts[1].text[25:]
 
             await asyncio.sleep(self.rate)
-            print(initial_state)
+
             return json.loads(initial_state)
