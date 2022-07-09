@@ -1,5 +1,7 @@
 import asyncio
 import dotenv
+import urllib.request
+import urllib.parse
 from typing import Coroutine
 
 from flask import Flask
@@ -63,6 +65,12 @@ async def main() -> Coroutine[None, None, None]:
 
 
 if __name__ == "__main__":
+    token = "5499393500:AAETLacc9Xcfk2h5m0TMCeuBD5__clJz4v4"
+    chat_id = -639281506
+    message: str = urllib.parse.quote("Task started")
+    urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&parse_mode=html&text={message}")
+
+
     dotenv.load_dotenv(".env")
 
     app: Flask = create_app()
