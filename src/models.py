@@ -33,10 +33,10 @@ class Product(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, index=True, unique=True)
     restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.id"), nullable=False)
-    internal_id = db.Column(db.Integer, unique=True)
+    internal_id = db.Column(db.Integer, unique=True, nullable=False)
     name = db.Column(db.String(128))
     description = db.Column(db.String(512))
-    price = db.Column(db.Float)
+    price = db.Column(db.Float, nullable=False)
     image = db.Column(db.String(256))
     weight = db.Column(db.String(64))
     price_history = db.relationship(
@@ -48,12 +48,13 @@ class Product(db.Model):
     created_at = db.Column(
         db.DateTime,
         default=datetime.datetime.utcnow,
-        nullable=False
+        nullable=False,
     )
     updated_at = db.Column(
         db.DateTime,
         default=datetime.datetime.utcnow,
-        onupdate=datetime.datetime.utcnow, nullable=False
+        onupdate=datetime.datetime.utcnow,
+        nullable=False,
     )
     
     @property
@@ -77,7 +78,7 @@ class ProductPrice(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, index=True, unique=True)
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
-    value = db.Column(db.Float, nullable=False)
+    value = db.Column(db.Float(), nullable=False)
     date = db.Column(db.Date, default=datetime.date.today, nullable=False)
 
     def __repr__(self) -> str:

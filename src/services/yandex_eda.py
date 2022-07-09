@@ -31,8 +31,6 @@ class Product(NamedTuple):
     id: int
     name: str
     description: str
-    # calories: int
-    # weight: int
     price: float
     image: str
     weight: str

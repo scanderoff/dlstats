@@ -55,6 +55,7 @@ async def main() -> Coroutine[None, None, None]:
                         dbprod.description = product.description
                         dbprod.image = product.image
                         dbprod.price = product.price
+                        dbprod.weight = product.weight
 
                 db.session.commit()
 

@@ -56,7 +56,7 @@ def product(product_id: int) -> str:
     # pp - product price
     pp_history = product.price_history
     dates: list[str] = [pp.date.strftime("%d.%m.%Y") for pp in pp_history]
-    values: list[float] = [pp.value for pp in pp_history]
+    values: list[float] = [float(pp.value) for pp in pp_history]
 
     chart: dict[str, str] = {
         "labels": json.dumps(dates),
@@ -67,13 +67,3 @@ def product(product_id: int) -> str:
         "product": product,
         "chart": chart,
     })
-
-
-@main.route("/test/", methods=["GET"])
-def test() -> str:
-    prod = db.session.query(Product).get(1000)
-
-    prod.price = 9999.0
-    db.session.commit()
-
-    return "fdsf"
