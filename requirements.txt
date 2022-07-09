@@ -20,6 +20,7 @@ MarkupSafe==2.1.1
 multidict==6.0.2
 pkg_resources==0.0.0
 psycopg2-binary==2.9.3
+PyMySQL==1.0.2
 python-dotenv==0.20.0
 soupsieve==2.3.2.post1
 SQLAlchemy==1.4.39
