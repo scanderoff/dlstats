@@ -40,7 +40,9 @@ class Parser:
     BASE_URL: str = "https://eda.yandex.ru"
 
 
-    def __init__(self) -> None:
+    def __init__(self, limit: asyncio.Semaphore, rate: float) -> None:
+        self.limit = limit
+        self.rate = rate
         # одна сессия на все запросы
         # закрываем при выходе из контекстного менеджера
         self.session = aiohttp.ClientSession()
@@ -100,12 +102,7 @@ class Parser:
 
             return restaurants
     
-    async def get_products(
-        self,
-        restaurant: Restaurant,
-        limit: asyncio.Semaphore,
-        rate: float,
-    ) -> list[Product]:
+    async def get_products(self, restaurant: Restaurant) -> list[Product]:
         """
         Парсинг продуктов.
         Нужен слаг ресторана и всё получаем одним GET запросом
@@ -113,7 +110,7 @@ class Parser:
         rate - задержка перед следующим пакетом limit запросов
         """
 
-        async with limit, self.session.get(f"{Parser.BASE_URL}/api/v2/catalog/{restaurant.slug}/menu", headers={
+        async with self.limit, self.session.get(f"{Parser.BASE_URL}/api/v2/catalog/{restaurant.slug}/menu", headers={
             "Accept": "application/json, text/plain, */*",
             "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0",
         }, ssl=False) as response:
@@ -143,7 +140,7 @@ class Parser:
 
                     products.append(product)
 
-            await asyncio.sleep(rate)
+            await asyncio.sleep(self.rate)
 
             log.info(f"PRODUCTS REQUEST: {len(products)}")
 
