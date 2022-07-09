@@ -70,7 +70,8 @@ class Product(db.Model):
         if not self.image:
             return "https://yastatic.net/s3/eda-front/www/assets/desktop.light.a623a0604d5b8e0630de.svg"
 
-        return "https://eda.yandex.ru" + self.image.replace("{w}", str(width)).replace("{h}", str(height))
+        # return "https://eda.yandex.ru" + self.image.replace("{w}", str(width)).replace("{h}", str(height))
+        return "https://www.delivery-club.ru" + self.image
 
 
 class ProductPrice(db.Model):
