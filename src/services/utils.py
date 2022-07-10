@@ -1,4 +1,4 @@
-import urllib.request
+import requests
 import urllib.parse
 
 from flask_sqlalchemy import SQLAlchemy
@@ -12,8 +12,7 @@ class Notifier:
     def send_message(self, message: str) -> None:
         message = urllib.parse.quote(message)
 
-        with urllib.request.urlopen(f"https://api.telegram.org/bot{self.token}/sendMessage?chat_id={self.chat_id}&parse_mode=html&text={message}") as response:
-            ...
+        requests.get(f"https://api.telegram.org/bot{self.token}/sendMessage?chat_id={self.chat_id}&parse_mode=html&text={message}")
 
 
 def get_or_create(db: SQLAlchemy, model, **kwargs) -> tuple:
