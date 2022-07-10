@@ -67,7 +67,8 @@ async def main() -> Coroutine[None, None, None]:
 if __name__ == "__main__":
     dotenv.load_dotenv(".env")
 
-
+    with open("test.txt", "w") as ouf:
+        ouf.write(str(os.environ))
 
     # token: str = os.getenv("TELEGRAM_BOT_TOKEN")
     # chat_id: str = os.getenv("TELEGRAM_CHAT_ID")
