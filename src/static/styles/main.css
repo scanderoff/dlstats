@@ -1,5 +1,8 @@
 .page {
     height: auto;
+
+    --color-green: #0ec645;
+    --color-white: #fff;
 }
 
 .page__body {
@@ -41,7 +44,8 @@
     border: none;
 
     border-radius: 16px;
-    background-color: #FCE000;
+    background-color: var(--color-green);
+    color: var(--color-white);
     cursor: pointer;
 
     font-weight: 500;
@@ -66,6 +70,10 @@
     height: 100%;
 }
 
+.choices__list--multiple .choices__item {
+    border-color: var(--color-green);
+    background-color: var(--color-green);
+}
 
 
 

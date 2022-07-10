@@ -1,36 +1,35 @@
+import os
 import asyncio
 import dotenv
-import urllib.request
-import urllib.parse
 from typing import Coroutine
 
 from flask import Flask
 
 from src import create_app
 from src.models import db, City, Restaurant, Product, ProductPrice
-from src.services import yandex_eda as ye
-from src.services.utils import get_or_create
+from src.services import delivery_club as dl
+from src.services.utils import Notifier, get_or_create
 
 
 async def main() -> Coroutine[None, None, None]:
     city_names: list[str] = ["Иркутск"]
 
     limit = asyncio.Semaphore(3)
-    rate = 7.0
+    rate = 20.0
 
-    async with ye.Parser(limit, rate) as p:
-        cities: list[ye.City] = await p.get_cities(city_names)
+    async with dl.Parser(limit, rate) as p:
+        cities: list[dl.City] = await p.get_cities(city_names)
 
         tasks: list[Coroutine] = [p.get_restaurants(city) for city in cities]
-        cities_restaurants: list[list[ye.Restaurant]] = await asyncio.gather(*tasks)
+        cities_restaurants: list[list[dl.Restaurant]] = await asyncio.gather(*tasks)
 
         for city, restaurants in zip(cities, cities_restaurants):
             dbcity, _ = get_or_create(db, City, name=city.name)
             db.session.commit()
   
-            # tasks = [p.get_products(restaurants[0]), p.get_products(restaurants[1], limit, rate)]
+            # tasks = [p.get_products(restaurants[0]), p.get_products(restaurants[1])]
             tasks = [p.get_products(restaurant) for restaurant in restaurants]
-            restaurants_products: list[list[ye.Product]] = await asyncio.gather(*tasks)
+            restaurants_products: list[list[dl.Product]] = await asyncio.gather(*tasks)
 
             for restaurant, products in zip(restaurants, restaurants_products):
                 dbrest, _ = get_or_create(
@@ -64,14 +63,17 @@ async def main() -> Coroutine[None, None, None]:
     db.session.close()
 
 
+
 if __name__ == "__main__":
-    token = "5499393500:AAETLacc9Xcfk2h5m0TMCeuBD5__clJz4v4"
-    chat_id = -639281506
-    message: str = urllib.parse.quote("Task started")
-    urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&parse_mode=html&text={message}")
-
-
     dotenv.load_dotenv(".env")
+
+
+
+    token: str = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id: str = os.getenv("TELEGRAM_CHAT_ID")
+    Notifier(token, chat_id).send_message("Task started")
+
+
 
     app: Flask = create_app()
     app.app_context().push()
