@@ -69,9 +69,9 @@ if __name__ == "__main__":
 
 
 
-    token: str = os.getenv("TELEGRAM_BOT_TOKEN")
-    chat_id: str = os.getenv("TELEGRAM_CHAT_ID")
-    Notifier(token, chat_id).send_message("Task started")
+    # token: str = os.getenv("TELEGRAM_BOT_TOKEN")
+    # chat_id: str = os.getenv("TELEGRAM_CHAT_ID")
+    # Notifier(token, chat_id).send_message("Task started")
 
 
 
