@@ -2,17 +2,22 @@ import json
 import time
 import asyncio
 import aiohttp
-import logging
+import requests
+import urllib.parse
 
 from typing import Any, Iterable, NamedTuple
 from bs4 import BeautifulSoup
 
 
-# настройка логирования
-LOGGER_FORMAT = "%(asctime)s %(message)s"
-logging.basicConfig(format=LOGGER_FORMAT, datefmt="[%H:%M:%S]")
-log = logging.getLogger()
-log.setLevel(logging.INFO)
+class Notifier:
+    def __init__(self) -> None:
+        self.token = "5499393500:AAETLacc9Xcfk2h5m0TMCeuBD5__clJz4v4"
+        self.chat_id = -639281506
+
+    def send_message(self, message: str) -> None:
+        message = urllib.parse.quote(message)
+
+        requests.get(f"https://api.telegram.org/bot{self.token}/sendMessage?chat_id={self.chat_id}&parse_mode=html&text={message}")
 
 
 class City(NamedTuple):
@@ -45,10 +50,16 @@ class Parser:
         self.rate = rate
         self.session = aiohttp.ClientSession()
 
+        self.notifier = Notifier()
+
     async def __aenter__(self):
+        self.notifier.send_message("Parsing...")
+
         return self
 
     async def __aexit__(self, *excinfo):
+        self.notifier.send_message("Finished")
+
         await self.session.close()
 
     async def get_cities(self, city_names: Iterable[str] = []) -> list[City]:
@@ -70,7 +81,7 @@ class Parser:
 
             cities.append(city)
 
-        log.info(f"CITIES REQUEST: {len(cities)}")
+        self.notifier.send_message(f"Found cities: {len(cities)}")
 
         return cities
     
@@ -106,10 +117,9 @@ class Parser:
 
                     restaurants.append(restaurant)
 
-                # print(has_more, offset, data["total"])
                 # time.sleep(1)
 
-        log.info(f"RESTAURANTS REQUEST: {len(restaurants)}")
+        self.notifier.send_message(f"Found restaurants in {city.name}: {len(restaurants)}")
 
         return restaurants
 
@@ -134,7 +144,7 @@ class Parser:
 
             products.append(product)
 
-        log.info(f"PRODUCTS REQUEST: {len(products)}")
+        self.notifier.send_message(f"Found products in {restaurant.name}: {len(products)}")
 
         return products
 
@@ -155,4 +165,9 @@ class Parser:
 
             await asyncio.sleep(self.rate)
 
-            return json.loads(initial_state)
+            try:
+                initial_state = json.loads(initial_state)
+            except Exception as e:
+                self.notifier.send_message(f"An error ocurred: {e}")
+
+            return initial_state

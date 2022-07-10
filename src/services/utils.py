@@ -1,18 +1,4 @@
-import requests
-import urllib.parse
-
 from flask_sqlalchemy import SQLAlchemy
-
-
-class Notifier:
-    def __init__(self, token: str, chat_id: str) -> None:
-        self.token = token
-        self.chat_id = chat_id
-
-    def send_message(self, message: str) -> None:
-        message = urllib.parse.quote(message)
-
-        requests.get(f"https://api.telegram.org/bot{self.token}/sendMessage?chat_id={self.chat_id}&parse_mode=html&text={message}")
 
 
 def get_or_create(db: SQLAlchemy, model, **kwargs) -> tuple:
