@@ -169,5 +169,6 @@ class Parser:
                 initial_state = json.loads(initial_state)
             except Exception as e:
                 self.notifier.send_message(f"An error ocurred: {e}")
+                self.notifier.send_message(initial_state)
 
             return initial_state
