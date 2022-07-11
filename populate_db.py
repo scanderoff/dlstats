@@ -13,8 +13,8 @@ from src.services.utils import get_or_create
 async def main() -> Coroutine[None, None, None]:
     city_names: list[str] = ["Иркутск"]
 
-    limit = asyncio.Semaphore(3)
-    rate = 40.0
+    limit = asyncio.Semaphore(1)
+    rate = 30.0
 
     async with dl.Parser(limit, rate) as p:
         cities: list[dl.City] = await p.get_cities(city_names)
