@@ -116,7 +116,7 @@ class Parser:
                 "fastFilters": "group",
                 "cityId": city.id,
                 "cacheBreaker": int(time.time()),
-            }, headers=self.headers, ssl=False) as response:
+            }, headers={"User-Agent": self.headers["User-Agent"]}, ssl=False) as response:
 
                 data = await response.json()
 
