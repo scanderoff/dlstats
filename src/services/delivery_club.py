@@ -170,7 +170,7 @@ class Parser:
             except Exception as e:
                 self.notifier.send_message(f"An error ocurred: {e}")
                 
-                with open("initial_state", "w") as ouf:
-                    ouf.write(initial_state)
+                with open("response.txt", "w") as ouf:
+                    ouf.write(text)
 
             return initial_state
