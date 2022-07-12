@@ -53,7 +53,7 @@ class Parser:
         self.notifier = Notifier()
 
         self.headers = {
-            "Accept-Encoding": "gzip, deflate, br",
+            # "Accept-Encoding": "gzip, deflate, br",
             "Accept-Language": "en-US,en;q=0.5",
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
