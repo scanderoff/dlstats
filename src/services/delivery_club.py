@@ -53,17 +53,18 @@ class Parser:
         self.notifier = Notifier()
 
         self.headers = {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
             # "Accept-Encoding": "gzip, deflate, br",
-            "Accept-Language": "en-US,en;q=0.5",
-            "Cache-Control": "no-cache",
-            "Connection": "keep-alive",
+            # "Accept-Language": "en-US,en;q=0.5",
+            # "Cache-Control": "no-cache",
+            # "Connection": "keep-alive",
             # "Cookie": "amplitude_id_692a3723a9dfa13093b43c500d5c5074delivery-club.ru=eyJkZXZpY2VJZCI6IjM0MDY2ODM2LTVkMTYtNGNlMi1iMDc1LTdkYTQ1NmFmZDAyNFIiLCJ1c2VySWQiOm51bGwsIm9wdE91dCI6ZmFsc2UsInNlc3Npb25JZCI6MTY1NzY1MjI5MDM1MSwibGFzdEV2ZW50VGltZSI6MTY1NzY1MjMxMjc4NiwiZXZlbnRJZCI6ODUsImlkZW50aWZ5SWQiOjY4LCJzZXF1ZW5jZU51bWJlciI6MTUzfQ==; _gcl_au=1.1.819446901.1652365430; ab_experiments_entity_id=QRASDJIiSqCqdsKnSpjztQ; ab_experiments_list=acs-googlepay-ecosys-1075-3%3Atest%3Bdc-pro-v2%3Atest%3Bdcpro-137%3Acontrol%3Becosys-1493-web…xhdGZvcm0iOiJtYXJrZXQiLCJ1c2VySUQiOjAsImRldmljZUlEIjoiNzU4Y2Y4ODEtMGRmOC00MTA0LWIyZjQtZDhkM2JhYWJiMmVkIiwiaW5zdGFsbElEIjoiYmQ0YjBlNmExODk1NDcwNGVjMTEyOWFiOWMzYjIxZDlmMWNhZDRjMSIsImV4cCI6MTY1NzY1MzIwNn0.NirHkMQfAlV4scq1b0IW-UBrnmigaWLfaaLTauYCz-s; split_test_version=version_b; tmr_reqNum=223; tmr_lvid=efe228b96e311229574ba9f78c6bf92c; tmr_lvidTS=1652365431529; client_address=%7B%22cityId%22%3A20%2C%22host%22%3A%22irkutsk%22%2C%22latitude%22%3A52.286387%2C%22longitude%22%3A104.28066%2C%22timeOffset%22%3A5%7D",
-            "Host": "www.delivery-club.ru",
-            "Pragma": "no-cache",
-            "Sec-Fetch-Dest": "document",
-            "Sec-Fetch-Mode": "navigate",
-            "Sec-Fetch-Site": "cross-site",
-            "Upgrade-Insecure-Requests": "1",
+            # "Host": "www.delivery-club.ru",
+            # "Pragma": "no-cache",
+            # "Sec-Fetch-Dest": "document",
+            # "Sec-Fetch-Mode": "navigate",
+            # "Sec-Fetch-Site": "cross-site",
+            # "Upgrade-Insecure-Requests": "1",
             "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0",
         }
 
